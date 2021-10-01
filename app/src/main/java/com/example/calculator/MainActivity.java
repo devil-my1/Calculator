@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private Button equalBtn;
     private Button clearBtn;
     private String strSeq;
-    private int num1;
-    private int num2;
+    private double num1;
+    private double num2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity {
         if (!strSeq.equals("")) {
             try {
                 String[] flags = strSeq.split(" ");
-                num1 = Integer.parseInt(flags[0]);
+                num1 = Double.parseDouble(flags[0]);
                 String sign = flags[1];
-                num2 = Integer.parseInt(flags[2]);
+                num2 = Double.parseDouble(flags[2]);
 
                 switch (sign) {
                     case "+":
