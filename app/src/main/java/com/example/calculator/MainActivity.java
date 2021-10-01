@@ -10,21 +10,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView showTxt;
-    private TextView resTxt;
-    private Button divBtn;
-    private Button mulBtn;
-    private Button subBtn;
-    private Button addBtn;
-    private Button parcentBtn;
-    private Button bracersBtn;
-    private Button negBtn;
-    private Button dotBtn;
-    private Button equalBtn;
-    private Button clearBtn;
+    private TextView showTxt, resTxt;
     private String strSeq;
-    private double num1;
-    private double num2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         showTxt = (TextView) findViewById(R.id.inputTxt);
         resTxt = (TextView) findViewById(R.id.resTxt);
-        divBtn = (Button) findViewById(R.id.divBtn);
-        mulBtn = (Button) findViewById(R.id.mulBtn);
-        subBtn = (Button) findViewById(R.id.subBtn);
-        addBtn = (Button) findViewById(R.id.addBtn);
-        parcentBtn = (Button) findViewById(R.id.parcentBtn);
-        bracersBtn = (Button) findViewById(R.id.bracersBtn);
-        negBtn = (Button) findViewById(R.id.negBtn);
-        dotBtn = (Button) findViewById(R.id.dotBtn);
-        equalBtn = (Button) findViewById(R.id.equalBtn);
-        clearBtn = (Button) findViewById(R.id.clearBtn);
         strSeq = "";
     }
 
@@ -69,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     public void funcbtn(View v) {
         Button crnt = (Button) v;
 
-        if (!strSeq.equals("")) {
+        if (!strSeq.equals("") && !strSeq.equals(".")) {
             strSeq += " " + crnt.getText().toString() + " ";
             showTxt.setText(strSeq);
         }
@@ -77,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void getRes(View v) {
 
-        if (!strSeq.equals("")) {
+        if (!strSeq.equals("") && !strSeq.equals(".")) {
             try {
                 String[] flags = strSeq.split(" ");
-                num1 = Double.parseDouble(flags[0]);
+                double num1 = Double.parseDouble(flags[0]);
                 String sign = flags[1];
-                num2 = Double.parseDouble(flags[2]);
+                double num2 = Double.parseDouble(flags[2]);
 
                 switch (sign) {
                     case "+":
@@ -108,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (NullPointerException e) {
                 Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
             }
-
-
         }
     }
 }

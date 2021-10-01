@@ -177,6 +177,7 @@
         <Button
             android:id="@+id/dotBtn"
             style="@style/BtnStdStyle"
+            android:onClick="click"
             android:text="@string/dot" />
 
         <Button
