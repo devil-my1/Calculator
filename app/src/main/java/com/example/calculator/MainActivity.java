@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView showTxt, resTxt;
@@ -21,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        showTxt = (TextView) findViewById(R.id.inputTxt);
-        resTxt = (TextView) findViewById(R.id.resTxt);
+        showTxt = findViewById(R.id.inputTxt);
+        resTxt = findViewById(R.id.resTxt);
         strSeq = "";
     }
 
@@ -56,30 +59,51 @@ public class MainActivity extends AppCompatActivity {
 
         if (!strSeq.equals("") && !strSeq.equals(".")) {
             try {
+                List<Double> numbers = new ArrayList<>();
+                List<String> signs = new ArrayList<>();
+                double result = 0, num1, num2;
+                int i;
                 String[] flags = strSeq.split(" ");
-                double num1 = Double.parseDouble(flags[0]);
-                String sign = flags[1];
-                double num2 = Double.parseDouble(flags[2]);
 
-                switch (sign) {
-                    case "+":
-                        resTxt.setText(String.valueOf(num1 + num2));
-                        break;
-                    case "-":
-                        resTxt.setText(String.valueOf(num1 - num2));
-                        break;
-                    case "*":
-                        resTxt.setText(String.valueOf(num1 * num2));
-                        break;
-                    case "/":
-                        if (num2 != 0)
-                            resTxt.setText(String.valueOf(num1 / num2));
-                        else
-                            Toast.makeText(this, "Can not divide to 0.", Toast.LENGTH_SHORT).show();
-                        break;
-                    case "%":
-                        resTxt.setText(String.valueOf(num1 % num2));
-                        break;
+                for (i = 0; i < flags.length; i++) {
+                    if (flags[i].equals("+") || flags[i].equals("-") || flags[i].equals("*") || flags[i].equals("/") || flags[i].equals("%"))
+                        signs.add(flags[i]);
+                    else
+                        numbers.add(Double.parseDouble(flags[i]));
+                }
+
+
+                if (signs.size() != 1 && numbers.size() % signs.size() == 0)
+                    Toast.makeText(this, "Input correct formul", Toast.LENGTH_SHORT).show();
+                else {
+                    i = 0;
+                    for (String sign : signs) {
+                        num1 = numbers.get(Math.min(i, numbers.size() - 1));
+                        num2 = i != 0 ? result : numbers.get(i + 1);
+                        switch (sign) {
+                            case "+":
+                                result = num1 + num2;
+                                break;
+                            case "-":
+                                result = num1 - num2;
+                                break;
+                            case "*":
+                                result = num1 * num2;
+                                break;
+                            case "/":
+                                if (num2 != 0)
+                                    result = num1 / num2;
+                                else
+                                    Toast.makeText(this, "Can not divide to 0.", Toast.LENGTH_SHORT).show();
+                                break;
+                            case "%":
+                                result = num1 % num2;
+                                break;
+                        }
+                        i += 2;
+                    }
+
+                    resTxt.setText(String.valueOf(Math.abs(result)));
                 }
 
             } catch (NullPointerException e) {
