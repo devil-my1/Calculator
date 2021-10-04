@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 String[] flags = strSeq.split(" ");
 
                 for (i = 0; i < flags.length; i++) {
-                    if (flags[i].equals("+") || flags[i].equals("-") || flags[i].equals("*") || flags[i].equals("/") || flags[i].equals("%"))
+                    if (Pattern.matches("[+-/*/%]?", flags[i]))
                         signs.add(flags[i]);
                     else
                         numbers.add(Double.parseDouble(flags[i]));
@@ -80,6 +81,12 @@ public class MainActivity extends AppCompatActivity {
                     for (String sign : signs) {
                         num1 = numbers.get(Math.min(i, numbers.size() - 1));
                         num2 = i != 0 ? result : numbers.get(i + 1);
+                        if (num1 < num2) {
+                            double temp = num2;
+                            num2 = num1;
+                            num1 = temp;
+
+                        }
                         switch (sign) {
                             case "+":
                                 result = num1 + num2;
@@ -103,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                         i += 2;
                     }
 
-                    resTxt.setText(String.valueOf(Math.abs(result)));
+                    resTxt.setText(String.valueOf(result));
                 }
 
             } catch (NullPointerException e) {
